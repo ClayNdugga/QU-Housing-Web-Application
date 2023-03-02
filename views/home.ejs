@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queen's Homes</title>
+    <link href="/output.css" rel="stylesheet">
+</head>
+<body>
+
+<!--------------------------------------------------------- Header Begins  --------------------------------------------------------->
+
+<%- include('partials/header.ejs') %>
+
+<!--------------------------------------------------------- Header Ends  --------------------------------------------------------->
+
+<!--------------------------------------------------------- Main Content Begin  --------------------------------------------------------->
+
+<section class="text-gray-600 body-font mx-16">
+  <div class="container flex flex-col-reverse gap-10  md:py-24 md:mx-auto md:flex-row">
+
+    <div class="left md:w-3/5">
+      <div class="flex flex-col text-center mb-20">
+        <h1 class="sm:text-3xl text-3xl font-medium title-font mb-4 text-gray-900"><%= home.address %></h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base"><%= home.description %></p>
+      </div>
+  
+      <div class="flex -m-4 text-center items-center">
+  
+        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
+          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
+            <iconify-icon icon="material-symbols:king-bed-outline-rounded" style="color: #b91c1c;" width="60" height="60"></iconify-icon>
+            <h2 class="title-font font-medium text-3xl text-gray-900"><%= home.bedrooms %></h2>
+            <p class="leading-relaxed">Bed</p>
+          </div>
+        </div>
+  
+        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
+          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
+            <iconify-icon icon="bx:bath" style="color: #b91c1c;" width="60" height="60"></iconify-icon>
+            <h2 class="title-font font-medium text-3xl text-gray-900"><%= home.bathrooms %></h2>
+            <p class="leading-relaxed">Bath</p>
+          </div>
+        </div>
+
+        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
+          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
+            <!-- <iconify-icon icon="material-symbols:house-rounded" style="color: #b91c1c;" width="60" height="60"></iconify-icon> -->
+
+            <% if (home.type == 'House') {  %>
+              <iconify-icon icon="material-symbols:house-rounded" style="color: #b91c1c;" width="60" height="60"></iconify-icon>
+            <% } else { %>
+              <iconify-icon icon="bx:building-house" style="color: #b91c1c;" width="60" height="60"></iconify-icon>
+
+              <% } %>
+            <!-- <h2 class="title-font font-medium text-3xl text-gray-900">House</h2> -->
+            <p class="leading-relaxed"><%= home.type %></p>
+          </div>
+        </div>
+  
+        <div class="p-4 md:w-1/4 sm:w-1/2 w-full">
+          <div class="border-2 border-gray-200 px-4 py-6 rounded-lg">
+            <iconify-icon icon="ic:outline-star-half" style="color: #b91c1c;" width="60" height="60"></iconify-icon>
+            <h2 class="title-font font-medium text-3xl text-gray-900"><%= home.rating %></h2>
+            <p class="leading-relaxed">Rating</p>
+          </div>
+        </div>
+  
+      </div>
+
+    </div>
+    
+
+    <div class="lg:w-2/5 md:w-1/3 w-full rounded-lg overflow-hidden mt-6 flex flex-col">
+      <img class="object-cover object-center w-full h-full mb-1" src="https://dummyimage.com/600x300" alt="stats">
+      <p class="text-gray-600 text-xs italic">Current Home Owner: <span class="text-green-500"><%= home.createdBy.name %></span></p>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!--------------------------------------------------------- Main Content End  --------------------------------------------------------->
+
+
+
+<!--------------------------------------------------------- Comments Begins  --------------------------------------------------------->
+<section class="bg-white dark:bg-gray-900 py-8 lg:py-16">
+  <div class="max-w-3xl mx-auto px-4">
+
+
+
+
+
+
+
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion</h2>
+      </div>
+    <form class="mb-6" method="post">
+      <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <label for="comment" class="sr-only">Your comment</label>
+          <textarea name="comment" id="comment" rows="6"
+              class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+              placeholder="Write a comment..." required></textarea>
+      </div>
+      <button type="submit"
+          class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-queenred rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-red-600">
+          Post comment
+      </button>
+    </form>
+
+
+    <% home.reviews.forEach(comment => { %>
+      <% console.log(comment) %>
+        <article class="p-6 mb-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+            <footer class="flex justify-between items-center mb-2">
+                <div class="flex items-center">
+                    <p class="inline-flex items-center mr-3 text-sm <%= comment.user.email === home.createdBy.email ? "text-green-500" : "text-gray-900"%> dark:text-white"><!-- text-gray-900 --><img     
+                            class="mr-2 w-6 h-6 rounded-full"
+                            src="<%= comment.user.profilepic%>"
+                            ><%= comment.user.name%></p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
+                            title="February 8th, 2022"><%= comment.createdAt.toDateString().substring(3,comment.createdAt.toDateString().length)%></time></p>
+                </div>
+            </footer>
+
+            <p class="text-gray-500 dark:text-gray-400"><%= comment.desc%></p>
+            <!-- <div class="flex items-center mt-4 space-x-4">
+                <button type="button"
+                    class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                    <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    Reply
+                </button>
+            </div> -->
+        </article>
+      <% }) %>
+
+<!-- 
+    <article class="p-6 mb-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">   -->  <!-- ml-6 controls the indentation of replies-->
+        <!-- <footer class="flex justify-between items-center mb-2">
+            <div class="flex items-center">
+                <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
+                        class="mr-2 w-6 h-6 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                        alt="Jese Leos">Jese Leos</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-12"
+                        title="February 12th, 2022">Feb. 12, 2022</time></p>
+            </div>
+        </footer>
+        <p class="text-gray-500 dark:text-gray-400">Much appreciated! Glad you liked it ☺️</p>
+        <div class="flex items-center mt-4 space-x-4">
+            <button type="button"
+                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                Reply
+            </button>
+        </div>
+    </article>
+
+
+    <article class="p-6 mb-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+        <footer class="flex justify-between items-center mb-2">
+            <div class="flex items-center">
+                <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
+                        class="mr-2 w-6 h-6 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                        alt="Bonnie Green">Bonnie Green</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-03-12"
+                        title="March 12th, 2022">Mar. 12, 2022</time></p>
+            </div>
+        </footer>
+        <p class="text-gray-500 dark:text-gray-400">The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.</p>
+        <div class="flex items-center mt-4 space-x-4">
+            <button type="button"
+                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                Reply
+            </button>
+        </div>
+    </article>
+
+
+    <article class="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+        <footer class="flex justify-between items-center mb-2">
+            <div class="flex items-center">
+                <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white"><img
+                        class="mr-2 w-6 h-6 rounded-full"
+                        src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+                        alt="Helene Engels">Helene Engels</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-06-23"
+                        title="June 23rd, 2022">Jun. 23, 2022</time></p>
+            </div>
+        </footer>
+        <p class="text-gray-500 dark:text-gray-400">Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.</p>
+        <div class="flex items-center mt-4 space-x-4">
+            <button type="button"
+                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                Reply
+            </button>
+        </div>
+    </article> -->
+ 
+
+
+  </div>
+</section>
+<!--------------------------------------------------------- Comments Ends  --------------------------------------------------------->
+
+<!--------------------------------------------------------- Footer Begins  --------------------------------------------------------->
+<%- include('partials/footer.ejs') %>
+
+<!--------------------------------------------------------- Footer Ends  --------------------------------------------------------->
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.3/iconify-icon.min.js"></script>
+
+  
+</body>
+</html>
+
+
+<!-- Additions to output css -->
+
+<!-- .bg-queenred {
+  --tw-bg-opacity: 1;
+  background-color: rgba(185, 13, 49, var(--tw-bg-opacity));
+} 
+
+.text-queenred {
+  --tw-text-opacity: 1;
+  color: rgba(185, 13, 49, var(--tw-text-opacity));
+}
+
+-->
