@@ -1,3 +1,3 @@
 # QU-Housing-Web-Application
 
-Deployed on quhosuing.herokuapp.com
+Deployed on quhousing.herokuapp.com
